@@ -1,3 +1,10 @@
+-- Практическое задание по теме “CRUD - операции”
+-- Повторить все действия по доработке БД vk.
+-- Заполнить новые таблицы.
+-- Подобрать сервис который будет служить основой для вашей курсовой работы.
+-- (по желанию) Предложить свою реализацию лайков.
+
+
 #
 # TABLE STRUCTURE FOR: communities
 #
@@ -780,11 +787,165 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone`, `created_at`, `updated_at`) VALUES (100, 'Brandy', 'Klein', 'abbigail.witting@example.net', '629-102-5238x36663', '1988-11-15 23:50:20', '1983-10-04 08:28:56');
 
 
--- Учитывая повторяемость полов, можно создать отдельную таблицу с полами и в profiles ссылаться на id пола (если я правильно понял про повторяемости)
--- и в последующем у нас будет формализованный список полов, что позволит не создавать много разных значений, введенных пользователями.
-CREATE TABLE gender(
-id TINYINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-gender varchar(10) NOT NULL UNIQUE
-); 
-INSERT INTO `gender` (`gender`) VALUES ('m');
-INSERT INTO `gender` (`gender`) VALUES ('f');
+-- Доработка 
+
+UPDATE friendship SET user_id = (SELECT id FROM users ORDER BY RAND() LIMIT 1);
+
+UPDATE media SET user_id = (SELECT id FROM users ORDER BY RAND() LIMIT 1);
+UPDATE media SET filename = (SELECT id FROM users ORDER BY RAND() LIMIT 1);
+
+SELECT * FROM friendship;
+
+CREATE TABLE meetings (
+id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(255) NOT NULL UNIQUE,
+scheduled_at DATETIME
+);
+
+CREATE TABLE posts(
+id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+user_id INT UNSIGNED NOT NULL,
+header VARCHAR(255),
+body TEXT NOT NULL,
+media_id INT UNSIGNED,
+created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO `meetings` (`id`, `name`, `scheduled_at`) VALUES (1, 'in', '2005-10-18 10:25:43');
+INSERT INTO `meetings` (`id`, `name`, `scheduled_at`) VALUES (2, 'minima', '1987-09-14 18:50:59');
+INSERT INTO `meetings` (`id`, `name`, `scheduled_at`) VALUES (3, 'vitae', '2017-08-12 01:42:36');
+INSERT INTO `meetings` (`id`, `name`, `scheduled_at`) VALUES (4, 'necessitatibus', '1995-02-21 20:48:59');
+INSERT INTO `meetings` (`id`, `name`, `scheduled_at`) VALUES (5, 'aliquid', '2014-06-01 22:14:30');
+INSERT INTO `meetings` (`id`, `name`, `scheduled_at`) VALUES (6, 'et', '1982-12-13 03:23:54');
+INSERT INTO `meetings` (`id`, `name`, `scheduled_at`) VALUES (7, 'sit', '2010-09-07 06:14:29');
+INSERT INTO `meetings` (`id`, `name`, `scheduled_at`) VALUES (8, 'vel', '2011-10-06 10:18:53');
+INSERT INTO `meetings` (`id`, `name`, `scheduled_at`) VALUES (9, 'non', '1971-08-21 15:02:34');
+INSERT INTO `meetings` (`id`, `name`, `scheduled_at`) VALUES (10, 'atque', '2017-10-11 07:07:55');
+
+
+#
+# TABLE STRUCTURE FOR: posts
+#
+
+
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (1, 2, 'ea', 'Natus ex error doloribus est expedita. Dolores libero ut expedita minima incidunt ut sed. Doloribus repellendus est autem saepe.', 27, '1976-06-11 02:14:04', '1983-09-02 08:30:46');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (2, 37, 'minima', 'Quod numquam repellat voluptatem eius cumque beatae laboriosam. Voluptas veritatis iste optio quasi sit magni distinctio.', 48, '1985-07-29 09:25:50', '1998-04-14 02:53:03');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (3, 15, 'tenetur', 'Sequi porro est quo quidem. Quam rem fuga dolorum aliquam necessitatibus voluptatem.', 38, '1986-08-16 05:54:26', '1982-11-06 17:49:57');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (4, 27, 'nihil', 'Possimus recusandae autem porro et dolorem. Non aut aut animi numquam aut. Iusto praesentium placeat cumque exercitationem doloremque ut possimus.', 18, '1996-05-24 09:52:44', '2017-05-15 12:27:45');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (5, 37, 'autem', 'Vero quis aut soluta incidunt. Quo aut est minima alias.', 34, '1979-04-15 21:13:18', '2005-11-27 07:21:58');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (6, 17, 'asperiores', 'Eum nihil veritatis magnam inventore neque voluptas. Error consequuntur optio ipsa quia voluptas aut est numquam. Ut esse et vero culpa et rerum.', 8, '1984-09-22 10:43:10', '1998-06-15 15:41:32');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (7, 25, 'magnam', 'Iusto harum doloremque praesentium ad non. Ut cupiditate explicabo praesentium sapiente. Unde dolor incidunt voluptas beatae velit sint aut.', 15, '1986-11-03 05:20:10', '1975-05-01 05:01:37');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (8, 14, 'mollitia', 'Sint et expedita explicabo dolor cum repellendus vel enim. Repellat deleniti sed corrupti aut. Beatae asperiores odio pariatur accusamus.', 88, '2004-05-12 19:53:21', '1970-03-27 23:23:46');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (9, 21, 'distinctio', 'Nulla tenetur laudantium sint accusamus quisquam non. Et eum voluptatem doloribus ut vitae aliquam sequi. Quaerat itaque assumenda praesentium. Exercitationem nobis a rerum aut pariatur eaque facilis.', 69, '2004-09-29 01:33:23', '1996-05-17 16:38:12');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (10, 14, 'blanditiis', 'Fuga neque tenetur voluptates voluptates. Est dolores quasi cumque et est impedit. Recusandae numquam ea est rem sint nemo dolore ut.', 47, '2004-10-11 19:22:16', '2005-08-30 23:43:31');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (11, 20, 'odit', 'Provident quibusdam aut ex magni porro quidem et. Consectetur quasi vel enim beatae id sed et.', 42, '1978-08-31 14:21:04', '1992-11-27 04:40:21');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (12, 12, 'ut', 'Sunt officia ut ratione earum quos soluta at. Veritatis dolorem beatae iste non non consequatur. Asperiores in qui optio et fugiat.', 65, '2015-01-30 15:20:27', '2018-07-18 17:32:42');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (13, 7, 'rem', 'Porro id voluptatem deserunt eum. Enim ducimus enim laboriosam. Eligendi dolor amet facilis tempora.', 19, '2019-07-04 05:38:12', '1999-10-31 05:02:45');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (14, 20, 'et', 'Atque vero quibusdam ad laudantium a explicabo velit. Quas laboriosam reiciendis nisi sit odit iusto. A illo quisquam qui in accusamus non sint.', 84, '2008-10-25 00:48:13', '1987-06-23 03:54:47');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (15, 35, 'repudiandae', 'Quae repudiandae non et in enim. Facere dolorum ratione laborum ut.', 88, '1980-11-08 14:54:59', '1979-05-06 01:27:56');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (16, 26, 'sunt', 'Optio et numquam voluptas. Non laboriosam sit exercitationem qui sapiente velit et sunt. Accusantium et quasi error. Consequatur et aspernatur laudantium praesentium voluptatem.', 2, '2002-12-21 19:20:11', '1997-12-17 20:07:43');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (17, 29, 'commodi', 'Voluptatibus adipisci ut facilis in voluptates nulla voluptas. Quia eveniet ad facilis rerum. Vero voluptas non odit nesciunt.', 52, '2007-11-18 08:44:51', '2019-02-01 21:35:04');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (18, 33, 'vero', 'Porro aut voluptates voluptatem. Dolorem tenetur mollitia ex odio et debitis ut nam. Aperiam dolorem illum quasi voluptatem iure iste quis incidunt.', 77, '2014-11-09 23:43:48', '2008-01-14 16:17:42');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (19, 3, 'fuga', 'Sint velit tempora quis excepturi autem voluptatem ipsum harum. Rerum quas delectus facilis aspernatur laudantium debitis culpa. Repudiandae consequatur qui assumenda tempora et sed.', 92, '1999-03-15 00:12:27', '2003-06-10 21:40:00');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (20, 37, 'eum', 'Ad exercitationem velit corrupti vel sint doloremque eligendi ducimus. Facere itaque consequatur quia molestiae natus saepe. Consequatur consequuntur neque quo earum animi odio.', 31, '2008-07-21 16:25:50', '1990-07-20 22:03:03');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (21, 32, 'necessitatibus', 'Similique officiis et id. Consequatur sit sed optio voluptatem eius assumenda. Aliquid quia provident aut qui repellendus tenetur dolor. Sequi aperiam dolore veniam voluptatem numquam ut.', 7, '2010-11-01 01:22:03', '1997-11-23 12:17:10');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (22, 14, 'dolorem', 'Quod doloremque deserunt et consectetur nam quis aut. Unde officiis dolor aut amet cum commodi molestiae aspernatur. Minima quis id et tenetur aperiam.', 5, '1992-09-01 09:30:01', '2012-06-10 19:30:17');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (23, 19, 'quasi', 'Magnam quae rerum dolores eveniet aut officia aut. Consectetur id non aut quia. Et atque nulla aut autem. Occaecati consequatur quod at voluptate eos id mollitia et. Explicabo eos aut odit aperiam.', 52, '2011-10-14 10:11:22', '2015-09-12 15:24:45');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (24, 29, 'aut', 'Inventore aperiam suscipit quae porro voluptatem quia. Dolorem ut delectus distinctio tempora. Natus omnis consequatur ullam corrupti. Voluptas aliquam quia quos ipsam.', 8, '2004-12-07 23:13:22', '1980-07-12 09:09:00');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (25, 7, 'ex', 'Sequi corrupti dicta quia et et. Quia nobis mollitia unde temporibus beatae. Tenetur quisquam officia vero perferendis eum provident. Repudiandae maxime voluptatum et aut non minus.', 72, '1979-02-15 20:34:06', '1977-06-10 00:38:12');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (26, 3, 'eligendi', 'Molestiae aliquam veniam velit magni vero numquam voluptatem. Soluta aliquam consequuntur aut quo. Molestias et minus cum aut. Facere quidem dignissimos ut provident voluptas.', 96, '1989-03-09 06:04:21', '1973-06-27 19:36:46');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (27, 13, 'non', 'Nesciunt rem consequatur aperiam est vitae. Quibusdam saepe numquam sunt eos. Et debitis tempore qui nobis et consequatur officia consectetur. Perspiciatis qui ea suscipit itaque doloremque deserunt. Quasi et necessitatibus dolores ut modi fugit nostrum.', 38, '1988-01-13 17:08:23', '1990-08-18 23:49:36');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (28, 23, 'quisquam', 'Quia aut accusamus impedit officia optio totam. Ut deleniti voluptatum et nulla reprehenderit. In nesciunt excepturi distinctio alias facere. Qui et incidunt commodi rerum.', 73, '1987-05-30 17:47:24', '1990-08-31 20:11:01');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (29, 15, 'eaque', 'Quidem sunt error aut rem libero. Dolore voluptatem quasi reiciendis quis omnis. Non nostrum enim et adipisci. Quo eius beatae reprehenderit iste.', 61, '1972-01-05 08:05:26', '1976-02-18 19:04:59');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (30, 8, 'et', 'Praesentium corporis reprehenderit voluptatem non quidem. Corrupti voluptatem dolores et vel fuga sit. Amet qui neque odit est harum. Rerum nihil provident totam et atque quia qui. Officiis et quia consequatur voluptatem.', 5, '1982-10-21 16:03:52', '2015-11-03 06:11:10');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (31, 28, 'asperiores', 'Distinctio quibusdam rerum qui omnis. Sed ea dicta laudantium velit atque. Repellat minima numquam aspernatur esse. Enim laboriosam quidem quis quisquam natus.', 10, '1975-08-14 14:54:01', '1973-05-11 07:58:02');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (32, 11, 'nemo', 'Rerum dolorum consequatur et similique odit. Hic enim veniam impedit optio quos voluptatem. Sequi nihil ducimus sunt quia dolorem reiciendis voluptatem sit. Voluptate aut quia et accusantium.', 2, '2008-01-27 07:46:17', '2002-12-24 10:19:49');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (33, 37, 'quidem', 'Sit aut veniam et ut. Qui aut molestiae minima ipsa ipsam veniam molestiae. Corporis dignissimos sunt consequatur aut.', 13, '1980-01-16 05:28:18', '2008-07-30 23:30:26');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (34, 4, 'voluptas', 'Temporibus nostrum perferendis fugiat laborum ea illo reprehenderit aspernatur. Nesciunt fuga voluptatem porro asperiores.', 1, '1988-07-09 16:32:24', '1987-02-15 22:17:19');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (35, 40, 'autem', 'Quaerat soluta enim eos sed et dignissimos ut. Aut sequi architecto soluta libero. Accusantium iure velit accusantium repellendus. Esse error cum labore ex sequi et soluta in. Mollitia ut molestiae atque atque consectetur dignissimos.', 97, '1971-08-15 05:14:05', '2011-08-20 21:07:55');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (36, 17, 'qui', 'Nihil eos repellat libero suscipit. Sint quia quos praesentium culpa. Ea ducimus eligendi voluptatibus modi.', 23, '2016-06-07 06:15:39', '2009-07-27 04:59:45');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (37, 9, 'nesciunt', 'Quo est asperiores non odio voluptas. Dolores alias distinctio sapiente similique corporis accusantium nihil magni. Nesciunt eos ut omnis. Quaerat quod illo quas incidunt. Sapiente nulla necessitatibus adipisci officiis et reiciendis veritatis.', 10, '1975-06-08 12:02:29', '2001-09-07 03:47:50');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (38, 20, 'excepturi', 'Suscipit et consequatur possimus ut. Accusantium sit in ad excepturi quibusdam sit debitis. Placeat sunt fugiat repellat fuga cumque.', 18, '1989-12-30 02:22:16', '2010-12-03 01:07:00');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (39, 14, 'est', 'Esse velit iste facere natus maiores. Asperiores ut voluptatem quisquam fugit incidunt. Sed debitis suscipit ut ducimus id.', 13, '2014-12-12 01:45:15', '2011-01-28 19:02:36');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (40, 5, 'sed', 'Ut cum aliquam praesentium perspiciatis suscipit eum. Error beatae ex voluptatem sunt possimus aut fugit.', 66, '1993-03-03 12:25:22', '2009-10-28 09:56:40');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (41, 36, 'veritatis', 'Ducimus enim possimus ipsa reprehenderit voluptas. Possimus magnam et illum voluptatem eum. Ratione ipsam enim provident non a. Sit harum consequatur animi animi.', 70, '1974-06-11 07:13:42', '1970-06-05 17:59:04');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (42, 13, 'neque', 'Architecto esse quis ducimus. Quod ut ut facere rerum quia culpa. Est esse earum delectus harum.', 53, '2018-10-02 01:48:57', '2012-11-28 00:55:22');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (43, 36, 'ex', 'Quia quod totam aliquam quo. Rerum asperiores sit ab quae totam sapiente. Aut dolore unde quia laborum est officia ut. Accusantium perspiciatis sunt illum impedit architecto. Neque repudiandae aliquid et consequatur consequuntur a necessitatibus.', 96, '2012-09-18 18:14:34', '1977-12-24 21:17:26');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (44, 6, 'fuga', 'Minus iste dolor expedita. Ipsa commodi eum harum rem quasi nihil minus.', 66, '1978-02-25 18:27:01', '1983-03-22 01:31:56');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (45, 14, 'voluptatem', 'In illum et iste eos. Rerum amet amet ea amet qui voluptatem natus. Non enim aliquam porro.', 36, '1988-08-07 09:57:44', '2004-03-07 13:39:28');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (46, 6, 'omnis', 'Perferendis culpa amet ipsum et architecto eaque voluptatem voluptas. In ut labore dolores repellendus excepturi possimus quidem. Excepturi fugit id corporis optio est. Non pariatur aspernatur hic aliquid.', 30, '2011-02-24 14:13:57', '2010-03-03 08:00:44');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (47, 37, 'qui', 'Nostrum aut eum omnis rerum est natus aut. Incidunt minus dignissimos in sit itaque quo. Repudiandae omnis fuga eos ipsum et ipsa. Earum exercitationem veniam quos quam.', 69, '1970-07-22 00:43:02', '1999-02-03 15:16:34');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (48, 18, 'ratione', 'Quas est tempore suscipit sed. Mollitia dolor rerum id provident veniam. Rem aut accusamus qui qui et dolores aliquid nisi.', 85, '2015-06-11 19:38:24', '2015-04-02 11:16:38');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (49, 13, 'labore', 'Nobis incidunt dignissimos voluptate. A reiciendis magni asperiores et inventore soluta. Dicta expedita est et repellat impedit non. Officia harum doloribus optio tempore saepe quod. Nam totam rerum eos ea est.', 61, '1993-05-22 00:17:17', '2009-12-10 09:01:39');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (50, 18, 'quia', 'Ad modi inventore corrupti nobis placeat hic aut porro. Adipisci quo blanditiis sapiente voluptatem tempore.', 49, '1998-11-30 18:52:15', '2005-08-08 16:46:37');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (51, 6, 'aut', 'A eligendi odit consequuntur dolorem repellendus. Reprehenderit sed architecto sunt error modi dolorem consequatur dolorem. Et hic incidunt praesentium alias. Et fugiat dolorum at molestias.', 74, '1971-12-21 11:45:09', '1994-01-22 09:25:05');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (52, 21, 'repudiandae', 'Autem iusto neque exercitationem et molestiae ex. Reprehenderit consequatur illum tempora qui perspiciatis laborum.', 45, '1975-07-01 01:02:30', '1973-11-04 01:20:27');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (53, 21, 'fuga', 'Et dolores rerum quaerat qui. Id quia autem dicta officiis. Dicta voluptatem et quis vero.', 86, '2012-02-29 08:40:25', '1976-08-10 17:39:41');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (54, 30, 'enim', 'Quia quo ut quidem nulla culpa asperiores consequatur. In enim officia aliquam omnis. Laudantium vero est ut odit quia. Itaque qui quos eos sed ea id.', 79, '1988-04-06 20:54:46', '1993-03-13 18:01:00');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (55, 31, 'aspernatur', 'Et sit ad sint sed repellendus dolores et. Labore quo explicabo natus non reiciendis. Quia voluptas similique et quaerat. In officia veniam ea qui odit.', 77, '2002-08-08 19:12:13', '2001-12-21 15:19:04');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (56, 8, 'dolorum', 'Aliquid ipsa laboriosam neque. Aut facilis quo sed qui quis. Nemo ut et placeat qui nemo eveniet culpa.', 65, '1990-05-28 19:05:23', '2006-02-10 22:10:21');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (57, 23, 'voluptas', 'Alias quam officiis itaque. Non dignissimos pariatur aliquid inventore tempore sapiente. Harum et excepturi fuga suscipit ducimus. Non eum eos voluptatem assumenda eum.', 74, '1996-08-16 04:45:03', '1970-12-08 07:22:03');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (58, 7, 'ex', 'Sit ratione perferendis tenetur incidunt. Impedit ex aut omnis facilis. Dolores nesciunt officiis quam sequi sit facilis magni.', 63, '2001-12-30 23:11:40', '1974-01-19 10:41:57');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (59, 28, 'optio', 'Alias ut saepe eos laudantium. Nobis non qui dolor rem voluptas fuga. Consectetur enim pariatur iste error quidem. Nihil eos optio autem quasi tempore sit.', 61, '1993-04-14 23:26:59', '1972-01-02 06:59:39');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (60, 36, 'quis', 'Nihil saepe placeat earum sed iusto et earum. Rerum aut dicta laudantium animi quo necessitatibus. Repellat error ullam soluta cum. Tenetur incidunt eos eum aut ratione sit.', 35, '2005-10-02 13:19:35', '1977-09-17 18:50:38');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (61, 37, 'facere', 'Adipisci in itaque et eius sit. Fugit nihil aut et fugit cum. Architecto consequuntur enim fugit quis ad reiciendis reprehenderit. Voluptates velit minima rerum facere quae.', 47, '1986-01-19 04:38:57', '1998-12-05 16:30:30');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (62, 13, 'enim', 'Quia commodi sed laborum quo sed. Nihil eos ut reiciendis voluptas exercitationem et. Id blanditiis nesciunt tempora sed officiis est.', 11, '2002-11-07 22:48:38', '2006-04-29 19:22:41');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (63, 21, 'illum', 'Placeat odio vel repellat rerum cumque vitae. Sunt ut est alias dolor possimus iusto. Vel dolorem recusandae consequatur.', 50, '2017-04-13 20:52:07', '1973-04-20 18:57:09');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (64, 8, 'laboriosam', 'Non voluptatem quis in quod sint repellat. Veniam quia saepe omnis doloremque recusandae ipsam sint. Ipsam aliquid provident natus non. Non voluptatum quas earum qui ipsa beatae.', 90, '1972-03-18 00:12:11', '1982-03-09 00:07:27');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (65, 35, 'minima', 'Error quidem commodi aliquid quia autem cum. Voluptatum velit qui eligendi at sint. Possimus corrupti consequatur dolor aut.', 63, '1991-01-09 05:43:21', '1973-02-19 17:28:10');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (66, 22, 'est', 'Esse minima architecto nostrum dolores. Vel sit nobis aut earum accusantium nihil. Enim sit eligendi aperiam vel voluptatem adipisci. Maxime id delectus odio veniam. Maxime libero quaerat saepe quaerat autem sit sint.', 69, '1981-12-05 10:40:17', '1984-09-02 18:39:49');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (67, 19, 'quo', 'Quam sed architecto qui in iusto. Fuga unde dicta rerum qui. Aut ipsa eum non consequuntur.', 21, '1978-09-27 23:10:31', '1984-05-05 21:45:53');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (68, 7, 'exercitationem', 'Maxime perferendis repellat vel aut vero distinctio itaque. Nihil porro nesciunt quam iusto voluptatem sit omnis. Consequatur ipsum atque libero tempore quia ut cumque officiis.', 33, '1982-08-21 15:49:59', '2011-05-04 10:57:34');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (69, 27, 'magni', 'Sapiente perspiciatis dolores quae numquam eligendi. Expedita accusantium quasi eveniet minima ullam consequatur. Ea voluptatem maxime atque in possimus perferendis et quod. Modi iusto corrupti quidem ullam dicta delectus. Inventore cum sequi officia dolorem.', 91, '1987-12-24 08:11:05', '1986-09-01 06:06:24');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (70, 30, 'illum', 'Quis expedita inventore molestias atque itaque tenetur sed. Velit voluptatibus quae fugiat qui necessitatibus.', 76, '1988-02-12 14:59:35', '1971-07-23 15:26:28');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (71, 12, 'corrupti', 'Sed magnam quibusdam rerum officia voluptas doloremque quas. Cupiditate nobis voluptates similique est consequatur sint saepe. Qui esse ut placeat qui. Quia et est voluptatem minus illo ut. Corporis est ut aut facilis.', 9, '2007-07-29 12:53:46', '2001-09-23 19:58:23');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (72, 21, 'asperiores', 'Cumque commodi adipisci soluta maiores at. Quod dicta nam quasi et magni iure sed. Libero voluptate iusto voluptates consequuntur iure.', 26, '1984-12-07 12:34:21', '1994-06-13 17:38:17');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (73, 28, 'repellat', 'Eius odit incidunt quae sit aut. Repellat ut fuga ut occaecati. Doloribus provident quo placeat doloremque porro tenetur. Quisquam deleniti dolor pariatur molestiae voluptatem omnis quos officiis.', 84, '1992-09-07 01:12:16', '1985-03-25 15:24:58');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (74, 38, 'occaecati', 'Dicta error autem molestiae. Pariatur et atque assumenda nihil perferendis. Non alias itaque praesentium excepturi dolorum repudiandae.', 9, '1989-01-19 07:27:51', '1979-03-10 10:04:58');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (75, 36, 'non', 'Rerum quae rem incidunt corporis nihil est ut odio. Ut sapiente dolor qui accusamus saepe architecto architecto. In quidem quam doloribus vero. Rerum aliquam repudiandae temporibus iusto perspiciatis.', 27, '1997-01-04 19:53:47', '2005-01-10 17:30:38');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (76, 4, 'nesciunt', 'Eligendi quis corporis occaecati qui. Ut mollitia in eos sint praesentium. Fugiat a accusamus voluptatem itaque repudiandae. Quia unde deserunt voluptas voluptas.', 11, '1978-07-20 17:38:04', '1973-09-02 01:46:29');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (77, 35, 'voluptatem', 'Ut deserunt nemo sapiente. Reiciendis dignissimos quia atque accusamus ipsum et voluptatem. Eius architecto odit quae sed excepturi ut. Ut voluptatibus enim accusantium sint.', 76, '2006-03-14 21:44:09', '2006-10-20 18:00:16');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (78, 29, 'assumenda', 'Qui eaque ratione qui aperiam. Et atque quibusdam voluptatem. Neque illo voluptatibus sunt magnam animi exercitationem et.', 83, '1998-09-29 16:36:21', '1977-11-14 13:09:47');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (79, 27, 'repellat', 'Porro accusantium eaque quia voluptatem quia minima. Maiores ut aperiam suscipit et itaque. Repellat dolorem nemo laboriosam maxime laborum error ut. Aspernatur magnam voluptate et harum et est quam.', 31, '2004-10-05 16:40:23', '2004-03-09 19:13:30');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (80, 40, 'corrupti', 'Et placeat ad beatae quis aperiam doloremque perferendis. Maiores nesciunt necessitatibus et nihil. Facilis sed nisi magnam expedita aut earum.', 49, '2002-10-27 01:41:35', '1987-01-29 23:18:33');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (81, 24, 'error', 'Cum quia aliquid voluptas quia optio voluptas molestiae. Et similique commodi iusto molestiae sapiente excepturi reprehenderit minima. Ratione libero unde nam velit non aut numquam.', 22, '1977-07-30 05:16:34', '1980-08-29 19:11:45');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (82, 35, 'voluptates', 'Error ex perferendis omnis modi aliquid ipsa quis. Quod eveniet ipsum libero beatae.', 81, '1977-11-13 19:41:26', '1975-08-03 08:30:18');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (83, 22, 'omnis', 'At neque sed aut et unde quaerat consequuntur animi. Cum sed dolorum perspiciatis in ut in. Magni nihil earum neque. Molestiae blanditiis alias assumenda ducimus similique.', 48, '2010-07-12 20:14:27', '2001-03-03 00:05:26');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (84, 6, 'aut', 'Exercitationem sunt est minima enim. Est aperiam molestias sit qui non ea. Provident est et blanditiis libero possimus dolorem ut. Officia dolores in et excepturi dolore quaerat enim.', 56, '2019-04-21 05:26:45', '2006-10-03 17:43:44');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (85, 25, 'a', 'Aliquid sequi quia iusto minus alias error. Officiis aperiam totam accusamus qui qui numquam. Cum debitis eos dolorum ut sit. Et ut in ea qui veritatis nihil aperiam.', 59, '2015-04-07 00:19:43', '1988-01-12 08:39:44');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (86, 29, 'et', 'Ullam omnis quos laborum animi nihil alias. Repellendus earum harum assumenda qui iure qui voluptatum. Animi maxime consequatur dolorum. Id aut dolor voluptatibus quos eos praesentium.', 32, '1971-07-05 02:19:25', '2002-06-30 03:21:43');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (87, 15, 'tempora', 'Facere quam aperiam nisi voluptas eaque. Velit non sint maxime ad quas eius. Fugiat tempore saepe nesciunt voluptas. Alias laborum sint quo assumenda voluptas.', 25, '1981-05-05 16:42:33', '2006-12-11 00:20:38');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (88, 3, 'perspiciatis', 'Quis vel eaque nihil aut nulla necessitatibus. Optio aut libero aspernatur rerum qui aut at. Est voluptate fugiat inventore dolorem non hic. Voluptatum repellat beatae consectetur.', 68, '1993-01-29 02:39:20', '1976-02-23 20:37:37');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (89, 1, 'saepe', 'Voluptas magni voluptatem inventore aut reprehenderit. Qui omnis maiores numquam non eius natus impedit.', 9, '2008-11-26 09:17:26', '2004-04-28 17:02:33');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (90, 38, 'quaerat', 'Vitae et et laborum non sunt aperiam. Quisquam sint in laudantium voluptates recusandae explicabo. Necessitatibus omnis et eos maiores voluptas ut.', 41, '1978-06-29 08:45:07', '2008-03-29 14:15:41');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (91, 25, 'culpa', 'Vel consequatur nihil totam consequatur. Velit iure rem quis recusandae adipisci. Dolorem itaque voluptates sit ut voluptas doloremque.', 40, '2012-05-20 03:59:22', '2014-08-01 22:14:09');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (92, 37, 'natus', 'Commodi quis nihil culpa quasi molestiae dolorem. Id beatae placeat dolor quo. Et et et numquam esse ut. Quis omnis blanditiis fugiat omnis ut velit ut.', 83, '1983-09-06 23:55:42', '2009-05-31 03:28:21');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (93, 21, 'aut', 'Eligendi accusantium tempore qui quas iusto. Odit ipsam aut nisi aut sequi sunt sit. Fugit consequatur animi eos debitis voluptate. Sequi fuga sed nulla sunt.', 70, '1985-09-20 03:40:12', '2011-09-17 08:53:38');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (94, 11, 'aut', 'Accusamus debitis error minima voluptas omnis voluptatem velit mollitia. Accusantium accusamus culpa et est ut quis corrupti sit. Ratione aut qui perferendis provident totam natus alias. Ab culpa quos corporis.', 50, '1996-11-08 05:22:36', '1980-09-06 07:46:05');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (95, 28, 'pariatur', 'Temporibus rem sunt illo sunt. Enim itaque inventore cupiditate. Perferendis sapiente beatae perspiciatis quis.', 59, '2013-11-22 15:28:13', '1981-08-30 05:31:20');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (96, 2, 'sit', 'Distinctio cum numquam autem ipsa voluptas. Cum atque sit et. Voluptatem suscipit omnis quod aut vel quisquam repudiandae.', 97, '1972-02-19 17:57:38', '1987-12-08 07:40:46');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (97, 38, 'quia', 'Aliquid enim aut est sit rerum omnis ab. Non dolor voluptas deserunt autem. Nemo sunt consectetur in ut sunt aliquid et ut. Perspiciatis maxime dolorum deserunt non natus itaque libero.', 97, '2003-07-10 17:14:44', '1982-10-02 23:33:47');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (98, 6, 'odit', 'Ullam itaque voluptatibus qui aut ipsum dolor. Itaque maiores voluptatem ea quia consequatur ut magni. Sit et quam placeat ratione. Iure explicabo doloribus quis possimus voluptatum ut sunt.', 23, '2005-08-26 17:48:54', '1986-12-07 20:09:22');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (99, 2, 'numquam', 'Aspernatur esse excepturi qui atque. Nobis inventore sapiente quia mollitia harum et. Veritatis voluptate praesentium dolores qui recusandae aut autem eum.', 88, '1975-02-21 09:40:01', '1971-01-15 00:31:17');
+INSERT INTO `posts` (`id`, `user_id`, `header`, `body`, `media_id`, `created_at`, `updated_at`) VALUES (100, 9, 'quia', 'Sit pariatur vitae illum saepe. Est aut asperiores nisi. Quia eum sed voluptas consequatur modi.', 63, '2005-07-14 12:48:45', '1976-11-24 17:17:02');
+
+-- Создаем таблицу с лайками, для этого нужно знать кто оставил лайк, к какому именно объекту и к какому классу этот объект относится
+-- для того, чтобы реализовать категоризацию лайков (аудио, фото, видео и т.п.)
+-- тип медиа добавил ниже через Alter TABLE
+CREATE TABLE likes(
+id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+user_id INT UNSIGNED NOT NULL,
+link VARCHAR(255) NOT NULL
+);
+
+ALTER TABLE likes ADD media_type INT NOT NULL;
+ALTER TABLE media ADD link VARCHAR(255) NOT NULL;
+-- Поле link в таблице likes должно соотноситься с полем link в таблице media, чтобы количество лайков не обновлялось постоянно
+-- для каждого медиа в таблице, а формировалось через запрос
+SELECT count(link) FROM likes GROUP BY link HAVING link = ...
+
+
+-- Для курсового проекта хочу взять свою идею. Схожа с Литресом, но по художественной литературе предлагаются дополнительные параметры
+-- для поиска книг. В общем база - Литрес + свои дополнения.
